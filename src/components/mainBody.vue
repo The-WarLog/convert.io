@@ -5,7 +5,7 @@
             <h1 class="main-title">Convert Images Instantly</h1>
 
             <p class="text-subtitle">
-                Convert JPG, PNG, WEBP, GIF and more in seconds.
+                Convert JPG, PNG, WEBP,and more in seconds.
             </p>
         </div>
 
