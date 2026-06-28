@@ -16,17 +16,20 @@ export interface MetaData {
 }
 
 export interface SanitizedImage {
-  blob: Blob;
   metadata: MetaData;
   originalFile: File;
 }
-
+export interface ConversionOutput {
+  blob: Blob;
+  metadata: MetaData;
+  originalFile?: File;
+}
 export interface ConversionJob {
   id: string;
   input: SanitizedImage;
   targetFormat: Conversion;
   status: "pending" | "processing" | "done" | "error";
-  output?: SanitizedImage;
+  output?: ConversionOutput;
   error?: string;
   originalFilename: string;
   originalFormat: string; // e.g., "JPG"

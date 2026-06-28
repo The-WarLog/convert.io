@@ -63,9 +63,8 @@ export class MetadataService {
   //by sanitize we meant is that the file needs to gives its main data
   static async sanitizeImage(file: File): Promise<SanitizedImage> {
     const metadata = await this.extractMetadata(file);
-    const stripmetadata = await this.stripMetadata(file); //making of blob
+    // const stripmetadata = await this.stripMetadata(file); //making of blob
     return {
-      blob: stripmetadata,
       metadata: metadata,
       originalFile: file,
     };

@@ -64,42 +64,6 @@ export async function convertAndStore(
   return conversionjob;
 }
 
-async function convertBlobFormat(
-  blob: Blob,
-  targetMime: Conversion,
-): Promise<Blob> {
-  if (blob.type.split(";")[0].trim() === targetMime) {
-    return blob;
-  }
-  const image = await createImageBitmap(blob);
-  try {
-    const canvas = new OffscreenCanvas(image.width, image.height);
-    const isJPeg = targetMime === "image/jpeg";
-    const ctx = canvas.getContext("2d", {
-      willReadFrequently: false,
-      colorSpace: "srgb",
-      alpha: !isJPeg,
-    });
-    if (!ctx) throw new Error("Canvas context unavailable");
-    if (isJPeg) {
-      ctx.fillStyle = "#FFFFFF"; //fallback bg color
-      ctx.fillRect(0, 0, image.width, image.height);
-    } else {
-      ctx.clearRect(0, 0, image.width, image.height);
-    }
-    ctx.drawImage(image, 0, 0);
-    // Use quality 1.0 for lossless if possible, but for JPEG we may want lower
-    const quality = targetMime === "image/jpeg" ? 0.92 : 1.0;
-
-    return await canvas.convertToBlob({
-      type: targetMime,
-      quality,
-    });
-  } finally {
-    image.close();
-  }
-}
-
 function getExtension(mime: string): string {
   const map: Record<string, string> = {
     "image/jpeg": "jpg",

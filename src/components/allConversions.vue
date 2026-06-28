@@ -80,7 +80,7 @@
 import { ref, onMounted } from "vue";
 
 import type { ConversionJob, Conversion } from "@/types";
-import { getAllConversions } from "@/storage/storage";
+import { getAllConversions, getConversion } from "@/storage/storage";
 
 const conversions = ref<ConversionJob[]>([]);
 const formatMap: Record<Conversion, string> = {
@@ -98,12 +98,16 @@ onMounted(async () => {
     conversions.value = all;
 });
 
-const downloadConversion = (record: ConversionJob) => {
-    if (!record.output) return;
-    const blob = record.output.blob;
-    const url = URL.createObjectURL(blob);
+//downlaod
+//
+const downloadConversion = async (record: ConversionJob) => {
+    //const fresh = await getConversion(record.id);
+    if (!record?.output?.blob) return;
+
+    const url = URL.createObjectURL(record.output.blob);
     const a = document.createElement("a");
     a.href = url;
+
     a.download = record.output.metadata.filename;
     document.body.appendChild(a);
     a.click();
